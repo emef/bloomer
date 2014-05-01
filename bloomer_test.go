@@ -18,7 +18,7 @@ func TestBasic(t *testing.T) {
 		rand.Read(keys[i])
 		b.Add(keys[i])
 
-		if !b.Get(keys[i]) {
+		if !b.Test(keys[i]) {
 			t.Error("uh oh, bloom filter is busted")
 			t.FailNow()
 		}
@@ -29,7 +29,7 @@ func TestBasic(t *testing.T) {
 	falsePos := 0.0
 	for i := 0; i < int(N); i++ {
 		rand.Read(key)
-		if b.Get(key) {
+		if b.Test(key) {
 			falsePos++
 		}
 	}

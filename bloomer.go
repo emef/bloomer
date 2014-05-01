@@ -36,7 +36,7 @@ func (b Bloomer) Add(value []byte) {
 	}
 }
 
-func (b Bloomer) Get(value []byte) bool {
+func (b Bloomer) Test(value []byte) bool {
 	keys := b.getHashKeys(value)
 	for _, key := range keys {
 		if !b.field.Test(key) {
@@ -44,6 +44,18 @@ func (b Bloomer) Get(value []byte) bool {
 		}
 	}
 	return true
+}
+
+func (b Bloomer) TestAndSet(value []byte) bool {
+	found := true
+	keys := b.getHashKeys(value)
+	for _, key := range keys {
+		if !b.field.Test(key) {
+			found = false
+			b.Set(key)
+		}
+	}
+	return found
 }
 
 func (b Bloomer) getHashKeys(value []byte) []uint32 {
